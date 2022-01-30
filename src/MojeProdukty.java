@@ -16,6 +16,7 @@ public class MojeProdukty {
     public static ArrayList idProduktuWGlownejBazie = new ArrayList();
 
 
+
     public static Connection connect() throws IOException, SQLException {
         try{
             String driver = "com.mysql.cj.jdbc.Driver";
@@ -65,7 +66,7 @@ public class MojeProdukty {
     }
 
     public static Connection wyswietlWszystkieProduktyZBazy() throws IOException, SQLException {
-
+        sprawdzCzyIdSieDubluje();
         connect();
         System.out.println("--------------------------------------------------");
                 statement = connection.createStatement();
@@ -175,7 +176,66 @@ public class MojeProdukty {
             } catch (Exception e) {
                 System.out.println("__Cos poszlo nie tak__");
             }
+            connection.close();
         }
+    }
+        public static void sprawdzCzyIdSieDubluje()throws IOException, SQLException{
+        try {
+
+
+            connect();
+            System.out.println("--------------------------------------------------");
+            statement = connection.createStatement();
+            String sql = "SELECT * FROM produkty;";
+            int najnizszeRealneId = -1;
+            int id = 0;
+            ResultSet rs = statement.executeQuery(sql);
+            do{
+                rs.next();
+                if (najnizszeRealneId < 0) {
+                    najnizszeRealneId = rs.getInt("id");
+                    najnizszeRealneId = najnizszeRealneId - 1;
+                }
+                id = rs.getInt("id");
+                String name = rs.getString("Nazwa Produktu");
+                if (najnizszeRealneId + 1 == id) {
+                    najnizszeRealneId++;
+                    System.out.println("True" + najnizszeRealneId + " " + id);
+                } else {
+                    najnizszeRealneId++;
+                    System.out.println("False" + id + " " + najnizszeRealneId);
+                    //String name = rs.getString("Nazwa Produktu");
+
+                    System.out.println("INSERT INTO `produkty` (`ID`, `Nazwa Produktu`) VALUES ('" + najnizszeRealneId + "', '" + name + "');");
+                    String sql1 = "INSERT INTO `produkty` (`ID`, `Nazwa Produktu`) VALUES ('" + najnizszeRealneId + "', '" + name + "');";
+                    statement.executeUpdate(sql1);
+                    System.out.println("przed usunieciem");
+                    String sql2 = "DELETE FROM `produkty` WHERE `produkty`.`ID` = "+id+";";
+                    statement.executeUpdate(sql2);
+                    System.out.println("po usunieciem");
+                    sprawdzCzyIdSieDubluje();
+                }
+
+                //System.out.println(id+" "+ name);
+            }while (id>0);
+
+            System.out.println("--------------------------------------------------");
+        }catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("__Cos poszlo nie tak__");
+        }
+            statement.close();
+            connection.close();
+            System.out.println("__POSORTOWANE__");
+        //Menu.menu();
+        }
+
+    public static Connection dodajProduktDoGlownejBazy() throws IOException, SQLException{
+        return null;
+    }
+
+    public static void sprawdzCzyProduktJestJuzWBazie() throws IOException, SQLException{
 
     }
 }
