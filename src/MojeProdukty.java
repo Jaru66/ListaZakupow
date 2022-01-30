@@ -43,10 +43,10 @@ public class MojeProdukty {
 
                 try{
                 String sql= "SELECT 'Nazwa Produktu' FROM produkty where ID="+temp+";";
-                ResultSet rs = statement.executeQuery(sql);
+                statement.executeQuery(sql);
 
 
-                    rs.next();
+
                     String nazwaProduktu = rs.getString("Nazwa Produktu");
                     String sql1 = "INSERT INTO `moje_produkty` (`ID`, `Nazwa Produktu`) VALUES (NULL, '" + nazwaProduktu + "');";
                     statement.executeUpdate(sql1);
@@ -207,10 +207,9 @@ public class MojeProdukty {
             int najnizszeRealneId = -1;
             int id = 0;
             ResultSet rs = statement.executeQuery(sql);
-            do{
+
+            while(rs.next()){
                 statement = connection.createStatement();
-                //ResultSet rs = statement.executeQuery(sql);
-                rs.next();
                 if (najnizszeRealneId < 0) {
                     najnizszeRealneId = rs.getInt("id");
                     najnizszeRealneId = najnizszeRealneId - 1;
@@ -219,25 +218,21 @@ public class MojeProdukty {
                 String name = rs.getString("Nazwa Produktu");
                 if (najnizszeRealneId + 1 == id) {
                     najnizszeRealneId++;
-                    System.out.println("True" + najnizszeRealneId + " " + id);
+                    //System.out.println("True" + najnizszeRealneId + " " + id);
                 } else {
                     najnizszeRealneId++;
-                    System.out.println("False" + id + " " + najnizszeRealneId);
-                    //String name = rs.getString("Nazwa Produktu");
+                    //System.out.println("False" + id + " " + najnizszeRealneId);
 
-                    System.out.println("INSERT INTO `produkty` (`ID`, `Nazwa Produktu`) VALUES ('" + najnizszeRealneId + "', '" + name + "');");
+                    //System.out.println("INSERT INTO `produkty` (`ID`, `Nazwa Produktu`) VALUES ('" + najnizszeRealneId + "', '" + name + "');");
                     String sql1 = "INSERT INTO `produkty` (`ID`, `Nazwa Produktu`) VALUES ('" + najnizszeRealneId + "', '" + name + "');";
                     statement.executeUpdate(sql1);
-                    System.out.println("przed usunieciem");
+                    //System.out.println("przed usunieciem");
                     String sql2 = "DELETE FROM `produkty` WHERE `produkty`.`ID` = "+id+";";
                     statement.executeUpdate(sql2);
-                    System.out.println("po usunieciem");
-                    //sprawdzCzyIdSieDubluje();
-                    //connection.close();
-                }
+                    //System.out.println("po usunieciem");
 
-                System.out.println(id + " " + najnizszeRealneId);
-            }while (id>0);
+                }
+            }
 
             System.out.println("--------------------------------------------------");
         }catch (SQLException e) {
@@ -252,10 +247,62 @@ public class MojeProdukty {
         }
 
     public static Connection dodajProduktDoGlownejBazy() throws IOException, SQLException{
+
+        try {
+            System.out.println("Wpisz nazwe produktu jaki chcesz dodac (wszystkie litery male, slowa oddzielane spacja) lub wpisz q aby wyjsc do menu");
+            String b = reader.readLine();
+            if (b.contains("q")) {
+                Menu.menu();
+            }
+
+            try{
+                if(sprawdzCzyProduktJestJuzWBazie(b)==true){
+                    System.out.println("produkt jest juz w bazie!");
+                    dodajProduktDoGlownejBazy();
+                }else{
+                    String sql= "INSERT INTO `produkty` (`ID`, `Nazwa Produktu`, `Miejsce W Sklepie`) VALUES (NULL, '"+ b +"', '0');";
+                    statement.executeUpdate(sql);
+                    System.out.println("Dodano "+b+" do bazy danych produktow.");
+                }
+            }catch (SQLException e){e.printStackTrace();};
+        } catch (Exception e) {
+            System.out.println("__Cos poszlo nie tak__");
+        }
+        dodajProduktDoGlownejBazy();
         return null;
     }
 
-    public static void sprawdzCzyProduktJestJuzWBazie() throws IOException, SQLException{
+    public static void usunProduktZGlownejBazy() throws IOException, SQLException{
 
+        try{
+            wyswietlWszystkieProduktyZBazy();
+            //connect();
+            System.out.println("Wpisz numer ID produktu do usuniecia lub wpisz q aby wrocic do menu");
+            String b = reader.readLine();
+            if (b.contains("q")) {
+                Menu.menu();
+            }
+            int temp = Integer.parseInt(b);
+            try{String sql="DELETE from produkty WHERE ID=" + temp + ";";
+            statement.executeUpdate(sql);}catch (SQLException e) {e.printStackTrace();}
+            System.out.println("usunieto");
+            usunProduktZGlownejBazy();
+        }catch(SQLException e){e.printStackTrace();}
+    }
+
+    public static boolean sprawdzCzyProduktJestJuzWBazie(String name) throws IOException, SQLException{
+        connect();
+        statement = connection.createStatement();
+        String sql= "SELECT * FROM produkty;";
+
+        ResultSet rs = statement.executeQuery(sql);
+        while(rs.next()) {
+            if (name.contains(rs.getString("Nazwa Produktu")))
+                {
+                    connection.close();statement.close();
+                return true;
+                }
+        }
+        return false;
     }
 }

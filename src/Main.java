@@ -12,5 +12,6 @@ public class Main {
         Menu.menu();
         //MojaLista.getConnection();
         //MojeProdukty.getConnection();
+        //MojeProdukty.sprawdzCzyProduktJestJuzWBazie("jajka");
     }
 }

@@ -10,9 +10,13 @@ public class Menu {
         System.out.println();
         System.out.println("Asystent tworzenia listy zakupów.");
         System.out.println();
-        System.out.println("1. Dodaj produkty do swojej listy");
-        System.out.println("2. Wyswietl produkty na twojej liscie");
-        System.out.println("3. Usun produkt z mojej listy");
+        System.out.println("1. Dodaj produkty do glownej listy produktow");
+        System.out.println("2. Usun produkty z glownej listy produktow");
+        System.out.println();
+        System.out.println("3. Dodaj produkty do swojej listy zakupow");
+        System.out.println("4. Wyswietl produkty na twojej liscie zakupow");
+        System.out.println("5. Wyczysc liste zakupow");
+
 
         // BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -29,13 +33,15 @@ public class Menu {
             case 1:
                 //MojeProdukty.wyswietlWszystkieProduktyZBazy();
                 //MojeProdukty.dodajProduktyDoMojejListy();
-               MojeProdukty.sprawdzCzyIdSieDubluje();
+               //MojeProdukty.sprawdzCzyIdSieDubluje();
+                MojeProdukty.dodajProduktDoGlownejBazy();
                 break;
             case 2:
-                MojeProdukty.wyswietlWszystkieProduktyZListy();
+                //MojeProdukty.wyswietlWszystkieProduktyZListy();
+                MojeProdukty.usunProduktZGlownejBazy();
                 break;
             case 3:
-                MojeProdukty.usunProduktyZMojejListy();
+                //MojeProdukty.usunProduktyZMojejListy();
                 break;
 
             default:
