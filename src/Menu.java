@@ -27,9 +27,14 @@ public class Menu {
 
         switch (wybrana) {
             case 1:
+<<<<<<< HEAD
                 MojeProdukty.wyswietlWszystkieProduktyZBazy();
                 //MojeProdukty.dodajProduktyDoMojejListy();
 
+=======
+                //MojeProdukty.wyswietlWszystkieProduktyZBazy();
+                MojeProdukty.dodajProduktyDoMojejListy();
+>>>>>>> c111579 (nie wiem co sie dzieje)
                 break;
             case 2:
                 MojeProdukty.wyswietlProduktyNaMojejLiscie();
