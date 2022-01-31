@@ -27,8 +27,9 @@ public class Menu {
 
         switch (wybrana) {
             case 1:
-                //MojeProdukty.wyswietlWszystkieProduktyZBazy();
-                MojeProdukty.dodajProduktyDoMojejListy();
+                MojeProdukty.wyswietlWszystkieProduktyZBazy();
+                //MojeProdukty.dodajProduktyDoMojejListy();
+
                 break;
             case 2:
                 MojeProdukty.wyswietlProduktyNaMojejLiscie();
