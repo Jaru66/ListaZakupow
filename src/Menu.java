@@ -28,10 +28,11 @@ public class Menu {
         switch (wybrana) {
             case 1:
                 //MojeProdukty.wyswietlWszystkieProduktyZBazy();
-                MojeProdukty.dodajProduktyDoMojejListy();
+                //MojeProdukty.dodajProduktyDoMojejListy();
+               MojeProdukty.sprawdzCzyIdSieDubluje();
                 break;
             case 2:
-                MojeProdukty.wyswietlProduktyNaMojejLiscie();
+                MojeProdukty.wyswietlWszystkieProduktyZListy();
                 break;
             case 3:
                 MojeProdukty.usunProduktyZMojejListy();

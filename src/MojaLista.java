@@ -40,8 +40,6 @@ public class MojaLista {
         }
 
         public static void sprawdzPusteMiejscaWLiscie () throws IOException {
-
-
             int ostatniprodukt = 0;
             int pierwszynull = 99;
             for (int i = 99; i >= ostatniprodukt; i--) {

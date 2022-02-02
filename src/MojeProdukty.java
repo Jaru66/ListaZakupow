@@ -48,14 +48,14 @@ public class MojeProdukty {
 
                     rs.next();
                     String nazwaProduktu = rs.getString("Nazwa Produktu");
-
+                    String sql1 = "INSERT INTO `moje_produkty` (`ID`, `Nazwa Produktu`) VALUES (NULL, '" + nazwaProduktu + "');";
+                    statement.executeUpdate(sql1);
                 }catch (SQLException e){e.printStackTrace(); System.out.println("Nie znaleziono takiego produktu w bazie");dodajProduktyDoMojejListy();};
 
 
 
 
-                String sql = "INSERT INTO `moje_produkty` (`ID`, `Numer Produktu`) VALUES (NULL, '" + temp + "');";
-                statement.executeUpdate(sql);
+
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -78,6 +78,22 @@ public class MojeProdukty {
                     String name = rs.getString("Nazwa Produktu");
                     System.out.println(id+" "+ name);
                 }
+        System.out.println("--------------------------------------------------");
+        return null;
+    }
+    public static Connection wyswietlWszystkieProduktyZListy() throws IOException, SQLException {
+       // sprawdzCzyIdSieDubluje();
+        connect();
+        System.out.println("--------------------------------------------------");
+        statement = connection.createStatement();
+        String sql= "SELECT * FROM moje_produkty;";
+
+        ResultSet rs = statement.executeQuery(sql);
+        while(rs.next()) {
+            int id = rs.getInt("id");
+            String name = rs.getString("Nazwa Produktu");
+            System.out.println(id+" "+ name);
+        }
         System.out.println("--------------------------------------------------");
         return null;
     }
@@ -179,6 +195,7 @@ public class MojeProdukty {
             connection.close();
         }
     }
+
         public static void sprawdzCzyIdSieDubluje()throws IOException, SQLException{
         try {
 
@@ -191,6 +208,8 @@ public class MojeProdukty {
             int id = 0;
             ResultSet rs = statement.executeQuery(sql);
             do{
+                statement = connection.createStatement();
+                //ResultSet rs = statement.executeQuery(sql);
                 rs.next();
                 if (najnizszeRealneId < 0) {
                     najnizszeRealneId = rs.getInt("id");
@@ -213,10 +232,11 @@ public class MojeProdukty {
                     String sql2 = "DELETE FROM `produkty` WHERE `produkty`.`ID` = "+id+";";
                     statement.executeUpdate(sql2);
                     System.out.println("po usunieciem");
-                    sprawdzCzyIdSieDubluje();
+                    //sprawdzCzyIdSieDubluje();
+                    //connection.close();
                 }
 
-                //System.out.println(id+" "+ name);
+                System.out.println(id + " " + najnizszeRealneId);
             }while (id>0);
 
             System.out.println("--------------------------------------------------");
