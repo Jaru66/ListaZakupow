@@ -8,6 +8,7 @@ import AsystentZakupow.Zarzadzanie.WczytajProduktyZBazyODanejKategorii;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 import static AsystentZakupow.Swing.OdswiezListeProduktow.odswiezListeProduktow;
 import static AsystentZakupow.Zarzadzanie.Kategorie.kategorie;
@@ -18,6 +19,7 @@ public class DodanieProduktuDoGlownejBazy extends OknoDodajDoListy {
     JComboBox<String> kategoria = new JComboBox<String>();
     JLabel nazwaProduktuLabel = new JLabel("Nazwa Produktu");
     JLabel kategoriaLabel = new JLabel("Wybierz kategorie");
+
 
     public DodanieProduktuDoGlownejBazy()
     {
@@ -44,9 +46,10 @@ public class DodanieProduktuDoGlownejBazy extends OknoDodajDoListy {
         dodaj.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 new PodajNazweProduktuIKategorieAbyDodac(nazwaProduktu.getText(),kategoria.getSelectedItem().toString());
                 odswiezListeProduktow();
-                new WczytajProduktyZBazyODanejKategorii("produkty", kategoriaProduktu.getSelectedItem().toString());
+
             }
         });
     }

@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class SwingWindow  {
 
@@ -17,7 +18,7 @@ public class SwingWindow  {
     Dimension WielkoscOkna;
     JDialog dodajDoBazy;
     JComboBox<String> kategoriaProduktu;
-
+    public String zaznaczonaNazwaKategorii;
     public SwingWindow() {
         
         kategoriaProduktu = new JComboBox<String>();
@@ -52,10 +53,13 @@ public class SwingWindow  {
                 OknoDodajDoListy.main();
             }
         });
+
+
         DodajProduktDoBazy.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false);
+                zaznaczonaNazwaKategorii = Objects.requireNonNull(kategoriaProduktu.getSelectedItem()).toString();
+                //frame.setVisible(false);
                 new DodanieProduktuDoGlownejBazy();
             }
         });

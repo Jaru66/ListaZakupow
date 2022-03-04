@@ -26,14 +26,10 @@ public class WczytajProduktyZBazyODanejKategorii {
                 listaProduktow.addElement(nazwaProduktu);
             }
 
-            //kategoriaProduktu = rs.getString("kategoria produktu");
-
             connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
-        //return nazwaProduktu;
+
     }
 }

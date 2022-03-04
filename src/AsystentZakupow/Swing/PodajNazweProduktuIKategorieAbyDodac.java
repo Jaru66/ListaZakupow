@@ -20,10 +20,8 @@ public class PodajNazweProduktuIKategorieAbyDodac {
                 dodajProduktDoTabeli("produkty",nazwaProduktu, kategoria);
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
         }
     }
 

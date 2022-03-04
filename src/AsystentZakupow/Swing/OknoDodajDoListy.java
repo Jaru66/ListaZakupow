@@ -1,12 +1,10 @@
 package AsystentZakupow.Swing;
 
 import AsystentZakupow.BazaDanych.PolaczenieZBaza;
-import AsystentZakupow.KreatorPodstawowejListyZakupow.KreatorPodstawowejListy;
 import AsystentZakupow.Zarzadzanie.PrzeniesZTabeliProduktyDoListaZakupow;
 import AsystentZakupow.Zarzadzanie.WczytajProduktyZBazyODanejKategorii;
 import AsystentZakupow.Zarzadzanie.WyswietlWszystkieProduktyZTablicy;
 import AsystentZakupow.Zarzadzanie.usunZTablicyOPodanejNazwie;
-
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -18,8 +16,6 @@ import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Arrays;
-
 import static AsystentZakupow.Zarzadzanie.EksportujListeZakupowDoTxt.eksportujTabeleDoTxt;
 import static AsystentZakupow.Zarzadzanie.Kategorie.kategorie;
 import static AsystentZakupow.Swing.OdswiezListeProduktow.*;
@@ -50,9 +46,7 @@ public class OknoDodajDoListy extends SwingWindow {
             //WyswietlWszystkieProduktyZTablicy.ZapiszProduktyZBazyNaLiscieProduktow.wyswietlWszystkieProduktyZTablicy("produkty");
             WyswietlWszystkieProduktyZTablicy.b="listaZakupo";
             WyswietlWszystkieProduktyZTablicy.ZapiszProduktyZBazyNaLiscieZakupow.wyswietlWszystkieProduktyZTablicy("moje_produkty");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
 
@@ -94,53 +88,36 @@ public class OknoDodajDoListy extends SwingWindow {
     JButton otworzGoogleKeep = new JButton("Otworz Google Keep w przegladarce");
     otworzGoogleKeep.setBounds(1380,660,300,40);
         frame.add(otworzGoogleKeep);
-        otworzGoogleKeep.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        otworzGoogleKeep.addActionListener(e -> {
 
-                    String url = "https://keep.google.com/";
-                try {
-                    Desktop.getDesktop().browse(java.net.URI.create(url));
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-
+                String url = "https://keep.google.com/";
+            try {
+                Desktop.getDesktop().browse(java.net.URI.create(url));
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
+
         });
 
 
 
-    wyczyscListeZakupow.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            try {
-                wyczyscListeZakupowBezPytania();
-                odswiezListeZakupow();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+    wyczyscListeZakupow.addActionListener(e -> {
+        try {
+            wyczyscListeZakupowBezPytania();
+            odswiezListeZakupow();
+        } catch (IOException | SQLException ex) {
+            ex.printStackTrace();
         }
     });
 
-    eksportujListeDoTxt.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            try {
-                eksportujTabeleDoTxt("moje_produkty");
-            } catch (FileNotFoundException ex) {
-                ex.printStackTrace();
-            }
+    eksportujListeDoTxt.addActionListener(e -> {
+        try {
+            eksportujTabeleDoTxt("moje_produkty");
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
         }
     });
-    kategoriaProduktu.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        new WczytajProduktyZBazyODanejKategorii("produkty", kategoriaProduktu.getSelectedItem().toString());
-
-    }
-});
+    kategoriaProduktu.addActionListener(e -> new WczytajProduktyZBazyODanejKategorii("produkty", kategoriaProduktu.getSelectedItem().toString()));
     listaProdukto.addListSelectionListener(new ListSelectionListener() {
         @Override
         public void valueChanged(ListSelectionEvent e) {
@@ -162,16 +139,13 @@ public class OknoDodajDoListy extends SwingWindow {
     });
         listaZakupo.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                JList list = (JList) e.getSource();
                 if (e.getClickCount() == 2) {
 
                     String nazwaProduktu=listaZakupo.getSelectedValue();
                     listaZakupow.remove(listaZakupo.getSelectedIndex());
                     try {
                         usunZTablicyOPodanejNazwie.usunProduktZTablicy("moje_produkty",nazwaProduktu);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    } catch (SQLException ex) {
+                    } catch (IOException | SQLException ex) {
                         ex.printStackTrace();
                     }
                     odswiezListeZakupow();
